@@ -10,16 +10,26 @@ router
   .get("/api", (context) => {
     context.response.body = data;
   })
-  .get("/api/:dinosaur", (context) => {
-    if (context?.params?.dinosaur) {
-      const found = data.find((item) =>
-        item.name.toLowerCase() === context.params.dinosaur.toLowerCase()
-      );
-      if (found) {
-        context.response.body = found;
-      } else {
-        context.response.body = "No dinosaurs found.";
-      }
+  .get("/v2/inquiry/:account_number", (ctx) => {
+    if (!ctx.request.headers["Authorization"]) {
+      ctx.response.status = 401
+    }
+
+    if (!ctx.request.headers["BRI-Signature"] || !ctx.request.headers["BRI-Timestamp"]) {
+      ctx.response.status = 400
+    }
+
+    ctx.response.body = {
+        "responseCode": "0100",
+        "responseDescription": "Inquiry success",
+        "errorDescription": "",
+        "Data": {
+            "sourceAccount": "888801000157508",
+            "sourceAccountName": "John Doe",
+            "sourceAccountStatus": "Rekening Aktif",
+            "sourceAccountBalace": "49615063835.3",
+            "registrationStatus": "Rekening terdaftar an. BRI Application Program Interface"
+        }
     }
   });
 
