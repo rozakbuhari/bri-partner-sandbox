@@ -13,10 +13,12 @@ router
   .get("/v2/inquiry/:account_number", (ctx) => {
     if (!ctx.request.headers["Authorization"]) {
       ctx.response.status = 401
+      return;
     }
 
     if (!ctx.request.headers["BRI-Signature"] || !ctx.request.headers["BRI-Timestamp"]) {
       ctx.response.status = 400
+      return;
     }
 
     ctx.response.body = {
