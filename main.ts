@@ -11,19 +11,6 @@ router
     context.response.body = data;
   })
   .get("/v2/inquiry/:account_number", (ctx) => {
-    console.log(ctx.request.headers);
-    if (!ctx.request.headers["Authorization"]) {
-      ctx.response.status = 401
-      ctx.response.body = { ok: false }
-      return;
-    }
-
-    if (!ctx.request.headers["BRI-Signature"] || !ctx.request.headers["BRI-Timestamp"]) {
-      ctx.response.status = 400
-      ctx.response.body = { ok: false }
-      return;
-    }
-
     ctx.response.body = {
         "responseCode": "0100",
         "responseDescription": "Inquiry success",
